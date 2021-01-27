@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lgomez-d <lgomez-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 17:56:52 by lgomez-d          #+#    #+#             */
-/*   Updated: 2021/01/26 09:39:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/27 18:42:10 by lgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,20 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+# define BUFFER_SIZE 100
+
 typedef struct  s_listc
 {
-	char    c;
+	char    *str;
 	struct s_listc *next;
 }	t_listc;
 
+int get_next_line(int fd, char **line);
 t_listc *ft_last_elem(t_listc *list);
 unsigned int ft_list_len(t_listc *list);
-t_listc *ft_add_char(t_listc **list, char c);
+t_listc *ft_new_elem(t_listc **list);
 void ft_list_clear(t_listc **list);
 char *ft_list_to_str(t_listc *list);
+void ft_delete_front(t_listc **list);
+
 #endif

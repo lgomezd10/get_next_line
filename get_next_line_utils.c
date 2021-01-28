@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   ft_get_next_line_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lgomez-d <lgomez-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 20:18:02 by lgomez-d          #+#    #+#             */
-/*   Updated: 2021/01/28 09:54:30 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/28 19:26:00 by lgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
-t_listc *ft_last_elem(t_listc *list)
+t_listc			*ft_last_elem(t_listc *list)
 {
 	while (list && list->next)
 		list = list->next;
 	return (list);
 }
 
-unsigned int ft_list_len(t_listc *list)
+unsigned int	ft_list_len(t_listc *list)
 {
 	unsigned int len;
 
@@ -32,7 +33,7 @@ unsigned int ft_list_len(t_listc *list)
 	return (len);
 }
 
-void ft_delete_front(t_listc **list)
+void			ft_delete_front(t_listc **list)
 {
 	t_listc *delete;
 
@@ -45,7 +46,7 @@ void ft_delete_front(t_listc **list)
 	}
 }
 
-t_listc *ft_new_elem(t_listc **list)
+t_listc			*ft_new_elem(t_listc **list)
 {
 	t_listc *new;
 	t_listc *last;
@@ -59,19 +60,21 @@ t_listc *ft_new_elem(t_listc **list)
 		free(new);
 		return (0);
 	}
+	new->next = 0;
+	new->str[BUFFER_SIZE] = '\0';
 	last = ft_last_elem(*list);
 	if (last)
 		last->next = new;
 	else
-		*list = new;    
+		*list = new;
 	return (new);
 }
 
-void ft_list_clear(t_listc **list)
+void			ft_list_clear(t_listc **list)
 {
 	t_listc *rest;
 	t_listc *elem;
-	
+
 	elem = *list;
 	while (elem)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgomez-d <lgomez-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 20:18:02 by lgomez-d          #+#    #+#             */
-/*   Updated: 2021/01/27 20:18:17 by lgomez-d         ###   ########.fr       */
+/*   Updated: 2021/01/28 09:54:30 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,5 @@ void ft_list_clear(t_listc **list)
 		free(elem);
 		elem = rest;
 	}
+	*list = 0;
 }

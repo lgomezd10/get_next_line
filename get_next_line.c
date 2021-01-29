@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_get_next_line.c                                 :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgomez-d <lgomez-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 18:42:06 by lgomez-d          #+#    #+#             */
-/*   Updated: 2021/01/28 19:53:52 by lgomez-d         ###   ########.fr       */
+/*   Updated: 2021/01/29 09:37:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int		get_next_line(int fd, char **line)
 	static int		end = 0;
 	int				error;
 
+	*line = 0;
 	if (!(error = (fd < 0 || !line || BUFFER_SIZE <= 0)))
 	{
 		if (end && thereisline == -1)

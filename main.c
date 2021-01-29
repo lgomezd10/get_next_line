@@ -9,10 +9,21 @@ int main(void)
 	char *str;
 	//t_listc *list;
 
+	
 	fd = open("archivo", O_RDONLY);
 	printf("fichero abierto\n");
 
-	
+	res = 1;
+
+	while (res == 1)
+	{
+		res = get_next_line(fd, &str);
+		printf("leido: %s resp: %d\n", str, res);
+		free (str);
+	}
+	printf("Ha terminado la lectura con el valor: %d\n", res);
+	close(fd);
+	/*
 	res = get_next_line(fd, &str);
 	printf("res 1: %d\n", res);
 	printf("main 1: %s\n", str);
@@ -33,4 +44,5 @@ int main(void)
 	printf("main 4: %s\n", str);
 	free(str);
 	close(fd);
+	*/
 }

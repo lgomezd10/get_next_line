@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line malo.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgomez-d <lgomez-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 18:42:06 by lgomez-d          #+#    #+#             */
-/*   Updated: 2021/02/01 18:53:17 by lgomez-d         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:16:58 by lgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_delete_to_line_break(t_listc *elem)
 	}
 }
 
-char	*ft_get_line(t_listc **list, int pos)
+char	*ft_get_line(t_listc **list)
 {
 	int		i;
 	char	*str;
@@ -60,8 +60,7 @@ char	*ft_get_line(t_listc **list, int pos)
 	t_listc	*elem;
 
 	elem = *list;
-	i = (ft_list_len(elem) - 1) * BUFFER_SIZE;
-	str = (char *)malloc(sizeof(char) * (i + pos + 2));
+	str = (char *)malloc(sizeof(char) * ((ft_list_len(elem) * BUFFER_SIZE) + 2));
 	if ((result = str))
 	{
 		while (elem)
@@ -80,14 +79,16 @@ char	*ft_get_line(t_listc **list, int pos)
 	return (result);
 }
 
-int		ft_read_fd(int fd, t_listc **list, int *thereisline)
+int		ft_read_fd(int fd, t_listc **list)
 {
 	t_listc	*elem;
 	int		end;
 	int		readed;
+	int		has_return;
 
 	end = 0;
-	while (*thereisline < 0 && !end)
+	has_return = 0;
+	while (!has_return < 0 && !end)
 	{
 		elem = ft_new_elem(list);
 		if (!elem)
@@ -98,7 +99,7 @@ int		ft_read_fd(int fd, t_listc **list, int *thereisline)
 		if (readed < BUFFER_SIZE)
 			end = (readed == 0) ? 1 : readed;
 		elem->str[readed] = '\0';
-		*thereisline = ft_has_line_break(elem);
+		has_return = ft_has_line_break(elem);
 	}
 	return (end);
 }
@@ -106,18 +107,17 @@ int		ft_read_fd(int fd, t_listc **list, int *thereisline)
 int		get_next_line(int fd, char **line)
 {
 	static t_listc	*list = 0;
-	static int		thereisline = -1;
 	static int		end = 0;
 	int				error;
 
 	*line = 0;
 	if (!(error = (fd < 0 || !line || BUFFER_SIZE <= 0)) && !end)
 	{
-		if (thereisline < 0 && !end)
-			if ((end = ft_read_fd(fd, &list, &thereisline)) == -1)
+		if ((ft_list_len(list) == 1 && ft_has_line_break(list)) && !end)
+			if ((end = ft_read_fd(fd, &list)) == -1)
 				error = 1;
 	}
-	if (error || !(*line = ft_get_line(&list, thereisline)))
+	if (error || !(*line = ft_get_line(&list)))
 	{
 		ft_list_clear(&list);
 		return (-1);
@@ -127,7 +127,5 @@ int		get_next_line(int fd, char **line)
 		ft_list_clear(&list);
 		return (0);
 	}
-	if ((ft_has_line_break(list) == -1 && !end) || (end && !list))
-		thereisline = -1;
 	return (1);
 }

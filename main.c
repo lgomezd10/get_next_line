@@ -10,6 +10,7 @@ int main(void)
 	
 	//t_listc *list;
 
+<<<<<<< HEAD
 	//char *file = "2.txt";
 	char *file = "INVALID_FD";
 	fd = open(file, O_RDONLY);
@@ -22,6 +23,22 @@ int main(void)
 		printf("res: %d, linea: %s\n", res, str);
 		free(str);
 	}
+=======
+	
+	fd = open("archivo", O_RDONLY);
+	printf("fichero abierto\n");
+
+	res = 1;
+
+	while (res == 1)
+	{
+		res = get_next_line(fd, &str);
+		printf("leido: %s resp: %d\n", str, res);
+		free (str);
+	}
+	printf("Ha terminado la lectura con el valor: %d\n", res);
+	close(fd);
+>>>>>>> b64a22103af9962f132f57f530ddf62d55bc8071
 	/*
 	res = get_next_line(fd, &str);
 	printf("res 1: %d\n", res);
@@ -44,4 +61,5 @@ int main(void)
 	free(str);
 	*/
 	close(fd);
+	*/
 }

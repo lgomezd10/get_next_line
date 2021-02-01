@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgomez-d <lgomez-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 18:42:06 by lgomez-d          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/02/01 18:53:17 by lgomez-d         ###   ########.fr       */
+=======
+/*   Updated: 2021/01/29 09:37:18 by user42           ###   ########.fr       */
+>>>>>>> b64a22103af9962f132f57f530ddf62d55bc8071
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +115,11 @@ int		get_next_line(int fd, char **line)
 	int				error;
 
 	*line = 0;
+<<<<<<< HEAD
 	if (!(error = (fd < 0 || !line || BUFFER_SIZE <= 0)) && !end)
+=======
+	if (!(error = (fd < 0 || !line || BUFFER_SIZE <= 0)))
+>>>>>>> b64a22103af9962f132f57f530ddf62d55bc8071
 	{
 		if (thereisline < 0 && !end)
 			if ((end = ft_read_fd(fd, &list, &thereisline)) == -1)

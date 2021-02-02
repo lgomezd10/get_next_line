@@ -7,20 +7,26 @@ int main(void)
 	int fd;
 	int res;
 	char *str;
+	int i;
+	char *files[] = {"1.txt", "2.txt", "3.txt", "4.txt", "5.txt", "INVALID", 0};
 	
-	//t_listc *list;
-
-	//char *file = "2.txt";
-	char *file = "INVALID_FD";
-	fd = open(file, O_RDONLY);
-	printf("fichero %s abierto\n", file);
-
-	res = 1;
-	while (res == 1)
+	i = 0;
+	while (files[i] != 0)
 	{
+		fd = open(files[i], O_RDONLY);
+		printf("fichero %s abierto con fd %d\n", files[i], fd);
+
+		res = 1;
+		while (res == 1 /*&& i++ < 5*/)
+		{
+			res = get_next_line(fd, &str);
+			printf("res: %d, linea: %s\n", res, str);
+			free(str);
+		}
 		res = get_next_line(fd, &str);
 		printf("res: %d, linea: %s\n", res, str);
-		free(str);
+		i++;
+		close(fd);
 	}
 	/*
 	res = get_next_line(fd, &str);
@@ -43,6 +49,5 @@ int main(void)
 	printf("main 4: %s\n", str);
 	free(str);
 	*/
-	close(fd);
-	*/
+	
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgomez-d <lgomez-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 18:42:06 by lgomez-d          #+#    #+#             */
-/*   Updated: 2021/02/01 20:16:58 by lgomez-d         ###   ########.fr       */
+/*   Updated: 2021/02/02 12:57:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,63 +15,92 @@
 
 int		ft_has_line_break(char *str)
 {
-	while (*str != '\0')
+	if (str)
 	{
-		if (*str == '\n')
-			return (1);
-		str++;
+		while (*str != '\0')
+		{
+			if (*str == '\n')
+				return (1);
+			str++;
+		}
 	}
 	return (0);
 }
 
-char *ft_read_buffer(char **str, int fd)
+int ft_read_buffer(char **str, int fd)
 {
 	char *new;
 	char *temp;
 	int readed;
+	int out;
 	
-	while (!ft_has_line_break(str))
+	out = 0;
+	while (!ft_has_line_break(*str) && out == 0)
 	{
+		out = -1;
 		new = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if (new)
 		{
-			readed = read(fd, readed, BUFFER_SIZE);
-			new[readed] = '\0';
-			temp = ft_join(*str, new);
-			free(*str);
+			readed = read(fd, new, BUFFER_SIZE);
+			if (readed != -1)
+			{
+				new[readed] = '\0';
+				temp = ft_join(*str, new);
+				out = (temp && readed >= 0) ? 0 : out;
+				free(*str);
+				*str = temp;
+			}
 			free(new);
-			str = &temp;
-		}
-		else
-			return (0);		
+			out = (readed < BUFFER_SIZE) ? 1 : out;
+		}		
 	}
+	return (out);
+}
+
+char	*ft_get_line(char *str)
+{
+	unsigned long i;
+	char *line;
+
+	if (str)
+	{
+		i = ft_strlen_to(str, '\n');
+		if (!i)
+			i = ft_strlen_to(str, '\0');
+		line = (char *)malloc(sizeof(char) * i);
+		if (line)
+		{
+			line = ft_strcpy(line, str, i - 1);
+			str = ft_strcpy(str, &str[i], BUFFER_SIZE);
+			return (line);
+		}
+	}
+	return (0);	
 }
 
 int		get_next_line(int fd, char **line)
 {
 	static char	*str = 0;
-	static int		thereisline = -1;
-	static int		end = 0;
+	static int		end;
 	int				error;
 
 	*line = 0;
-	if (!(error = (fd < 0 || !line || BUFFER_SIZE <= 0)) && !end)
+	if (!(error = (fd < 0 || !line || BUFFER_SIZE <= 0 || (end && !str))))
 	{
-		if (thereisline < 0 && !end)
-			if ((end = ft_read_fd(fd, &list, &thereisline)) == -1)
-				error = 1;
+		if (!ft_has_line_break(str) && !end)
+			end = ft_read_buffer(&str, fd);
 	}
-	if (error || !(*line = ft_get_line(&list, thereisline)))
+	if (error || end == -1 || !(*line = ft_get_line(str)))
 	{
-		ft_list_clear(&list);
+		free(str);
+		str = 0;
 		return (-1);
 	}
-	if (end && !list)
-	{
-		ft_list_clear(&list);
+	if (end && !ft_has_line_break(str))
+	{		
+		free(str);
+		str = 0;
 		return (0);
 	}
-	if ((ft_has_line_break(list) == -1 && !end) || (end && !list))
-		thereisline = -1;
 	return (1);
 }

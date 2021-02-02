@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgomez-d <lgomez-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 17:56:52 by lgomez-d          #+#    #+#             */
-/*   Updated: 2021/02/01 20:16:58 by lgomez-d         ###   ########.fr       */
+/*   Updated: 2021/02/02 10:34:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@
 #  define BUFFER_SIZE 100
 # endif
 
-typedef struct	s_listc
-{
-	char			*str;
-	struct s_listc	*next;
-}				t_listc;
 
 int				get_next_line(int fd, char **line);
 char *ft_join(char *s1, char *s2);
-unsigned long ft_strlen(char *s);
+unsigned long ft_strlen_to(char *s, char c);
+char *ft_strcpy(char *dest, char *src, unsigned long n);
+
 
 #endif

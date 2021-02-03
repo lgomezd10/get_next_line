@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 18:42:06 by lgomez-d          #+#    #+#             */
-/*   Updated: 2021/02/02 12:57:06 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/03 08:52:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,13 @@ char	*ft_get_line(char *str)
 int		get_next_line(int fd, char **line)
 {
 	static char	*str = 0;
-	static int		end;
-	int				error;
+	int		end = 0;
+	int				error;	
 
 	*line = 0;
-	if (!(error = (fd < 0 || !line || BUFFER_SIZE <= 0 || (end && !str))))
+	if (!(error = (fd < 0 || !line || BUFFER_SIZE <= 0)))
 	{
-		if (!ft_has_line_break(str) && !end)
+		if (!ft_has_line_break(str))
 			end = ft_read_buffer(&str, fd);
 	}
 	if (error || end == -1 || !(*line = ft_get_line(str)))

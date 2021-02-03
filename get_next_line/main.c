@@ -2,25 +2,103 @@
 #include <fcntl.h>
 #include <stdio.h>
 
+void probar(char *file)
+{
+	int fd;
+	int res;
+	char *str;
+	
+	fd = open(file, O_RDONLY);
+	printf("fichero %s abierto con fd %d\n", file, fd);
+	
+	res = 1;
+	while (res == 1)
+	{
+		res = get_next_line(fd, &str);
+		printf("res: %d, linea: %s\n", res, str);
+		free(str);
+	}
+	res = get_next_line(fd, &str);
+	printf("res: %d, linea: %s\n", res, str);
+	free(str);
+	close(fd);
+}
+
 int main(void)
 {
 	int fd;
 	int res;
 	char *str;
+	char *file;
+	
+	probar("4.txt");
+		/*
+		fd = open(file, O_RDONLY);
+		printf("fichero %s abierto con fd %d\n", file, fd);
+		
+		res = 1;
+		while (res == 1)
+		{
+			res = get_next_line(fd, &str);
+			printf("res: %d, linea: %s\n", res, str);
+			free(str);
+		}
+		res = get_next_line(fd, &str);
+		printf("res: %d, linea: %s\n", res, str);
+		free(str);
+		close(fd);*/
+/*
+		file = ft_strcpy(file, "2.txt", 20);
+		fd = open(file, O_RDONLY);
+		printf("fichero %s abierto con fd %d\n", file, fd);
 
-	fd = open("3.txt", O_RDONLY);
-		printf("fichero abierto con fd %d\n", fd);
+		res = 1;
+		while (res == 1)
+		{
+			res = get_next_line(fd, &str);
+			printf("res: %d, linea: %s\n", res, str);
+			free(str);
+		}
+		res = get_next_line(fd, &str);
+		printf("res: %d, linea: %s\n", res, str);
+		free(str);
+		close(fd);
 
-char otro[] = "que pasa por tu casa";
-char *prueba = (char *)malloc(sizeof(char) * 7);
-		int sal = read(fd, otro, 5);
-		printf("sal: %d, prueba: %s %d\n", sal, otro, otro[0]);
-		free(prueba);
+		file = ft_strcpy(file, "3.txt", 20);
+		fd = open(file, O_RDONLY);
+		printf("fichero %s abierto con fd %d\n", file, fd);
+		
+		res = 1;
+		while (res == 1)
+		{
+			res = get_next_line(fd, &str);
+			printf("res: %d, linea: %s\n", res, str);
+			free(str);
+		}
+		res = get_next_line(fd, &str);
+		printf("res: %d, linea: %s\n", res, str);
+		free(str);
+		close(fd);
 
+		file = ft_strcpy(file, "4.txt", 20);
+		fd = open(file, O_RDONLY);
+		printf("fichero %s abierto con fd %d\n", file, fd);
+		
+		res = 1;
+		while (res == 1)
+		{
+			res = get_next_line(fd, &str);
+			printf("res: %d, linea: %s\n", res, str);
+			free(str);
+		}
+		res = get_next_line(fd, &str);
+		printf("res: %d, linea: %s\n", res, str);
+		free(str);
+		close(fd);
+*/
+	//char *files[] = {"1.txt", "2.txt", "3.txt", "4.txt", "5.txt", "INVALID", 0};
 	/*
 	int i;
-	char *files[] = {"1.txt", "2.txt", "3.txt", "4.txt", "5.txt", "INVALID", 0};
-	
 	i = 0;
 	while (files[i] != 0)
 	{
@@ -34,12 +112,13 @@ char *prueba = (char *)malloc(sizeof(char) * 7);
 			printf("res: %d, linea: %s\n", res, str);
 			free(str);
 		}
-		//res = get_next_line(fd, &str);
-		//printf("res: %d, linea: %s\n", res, str);
-		char *prueba = (char *)malloc(sizeof(char) * 7);
-		int sal = read(fd, prueba, 5);
-		printf("sal: %d, prueba: %s\n", sal, prueba);
-		free(prueba);
+		res = get_next_line(fd, &str);
+		printf("res: %d, linea: %s\n", res, str);
+		free(str);
+		//char *prueba = (char *)malloc(sizeof(char) * 7);
+		//int sal = read(fd, prueba, 5);
+		//printf("sal: %d, prueba: %s\n", sal, prueba);
+		//free(prueba);
 		i++;
 		close(fd);
 	}

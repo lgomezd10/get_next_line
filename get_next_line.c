@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgomez-d <lgomez-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 18:42:06 by lgomez-d          #+#    #+#             */
-/*   Updated: 2021/02/03 18:48:33 by lgomez-d         ###   ########.fr       */
+/*   Updated: 2021/02/04 10:58:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,6 @@ int ft_read_buffer(char **str, int fd)
 	return (out);
 }
 
-char	*ft_quit_line(char *str)
-{
-	int i;
-
-	i = ft_strlen_to(str, '\n');
-	str = ft_strcpy(str, &str[i], ft_strlen_to(&str[i], '\0'));
-	return (str);
-}
-
 char	*ft_get_line(char *str)
 {
 	unsigned long i;
@@ -80,7 +71,7 @@ char	*ft_get_line(char *str)
 		if (line)
 		{
 			line = ft_strcpy(line, str, i - 1);
-			//str = ft_strcpy(str, &str[i], BUFFER_SIZE);
+			str = ft_strcpy(str, &str[i], ft_strlen_to(&str[i], '\0'));
 			return (line);
 		}
 	}
@@ -90,29 +81,28 @@ char	*ft_get_line(char *str)
 int		get_next_line(int fd, char **line)
 {
 	static char	*str = 0;
-	static int		end = 0;
-	int				error;	
+	int			end;
+	int			error;	
 
 	*line = 0;
-	if (!(error = (fd < 0 || !line || BUFFER_SIZE <= 0 || (end == 1 && !str))))
+	end = 0;
+	if (!(error = (fd < 0 || !line || BUFFER_SIZE <= 0)))
 	{
-		if (!ft_has_line_break(str) && !end)
+		if (!ft_has_line_break(str))
 			end = ft_read_buffer(&str, fd);
 	}
+	end = (end == 1 && ft_has_line_break(str)) ? 0 : end;
 	if (error || end == -1 || !(*line = ft_get_line(str)))
 	{
 		free(str);
 		str = 0;
 		return (-1);
 	}
-	//printf("End: %d str: %sFIN\nhasretur: %d", end, str, ft_has_line_break(str));
-	if (end && !ft_has_line_break(str))
-	{	
+	if (end)
+	{		
 		free(str);
 		str = 0;
 		return (0);
 	}
-	ft_quit_line(str);
-	
 	return (1);
 }

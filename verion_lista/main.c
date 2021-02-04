@@ -20,7 +20,7 @@ char *prueba = (char *)malloc(sizeof(char) * 7);
 	
 	int i;
 	//char *files[] = {"1.txt", "2.txt", "3.txt", "4.txt", "5.txt", "6.txt", "INVALID", 0};
-	char *files[] = {"big_line_no_nl", 0};
+	char *files[] = "big_line_no_nl";
 	
 	i = 0;
 	while (files[i] != 0)
